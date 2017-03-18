@@ -3,6 +3,16 @@
 # Project 1 for COMP30027
 import csv
 
+# converts input to appropriate value
+def clean(data):
+    if(data == 'M'):
+        return 1
+    if(data == 'F'):
+        return 0
+    if(data == 'I'):
+        return 2
+    return float(data)
+
 # opens file filename,
 # returns dataset (+class labels) comprised of instances in the file (1/line)
 def preprocess_data(filename):
@@ -14,13 +24,18 @@ def preprocess_data(filename):
         # load into array
         for row in reader:
             data.append(row)
-    return(data)
+    return [list(map(clean, x)) for x in data]
 
 
 # returns a score based on similarity of two instances, according to
 # distance/similarity metric defined by method string
 def compare_instance(instance1, instance2, method):
-        print("hi")
+    if(method == "Euclidean Distance"):
+        return dist_euclid(instance1, instance2)
+
+# returns the euclidean distance of two instances
+def dist_euclid(instance1, instance2):
+    return 0
 
 # returns a list of (class, score) 2-tuples, for each of the k best neighbors,
 # according to dist/sim metric defined by method string, for the given instance
@@ -46,5 +61,4 @@ def evaluate(data_set, metric):
 
 attributes = [["Sex", "Length", "Diameter", "Height", "Whole Weight", "Shucked Weight", "Viscera Weight", "Shell Weight", "Rings"]]
 data = preprocess_data("../abalone.data")
-for row in data:
-    print(row)
+print(data)
