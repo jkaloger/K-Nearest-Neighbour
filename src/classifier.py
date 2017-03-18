@@ -2,24 +2,24 @@
 # Jack Kaloger 2017
 # Project 1 for COMP30027
 import csv
-import numpy as np
-import matplotlib.pyplot as plt
 
 # opens file filename,
 # returns dataset (+class labels) comprised of instances in the file (1/line)
 def preprocess_data(filename):
-    data = [["Sex", "Length", "Diameter", "Height", "Whole Weight", "Shucked Weight", "Viscera Weight", "Shell Weight", "Rings"]]
+    # attribute titles
+    data = []
+    # open file
     with open(filename,"r") as csvfile:
         reader = csv.reader(csvfile, delimiter=",")
+        # load into array
         for row in reader:
             data.append(row)
-    return(np.array(data))
+    return(data)
 
 
 # returns a score based on similarity of two instances, according to
 # distance/similarity metric defined by method string
 def compare_instance(instance1, instance2, method):
-	#
         print("hi")
 
 # returns a list of (class, score) 2-tuples, for each of the k best neighbors,
@@ -42,4 +42,9 @@ def evaluate(data_set, metric):
         print("hi")
 
 
-print(preprocess_data("../abalone.data"))
+# MAIN
+
+attributes = [["Sex", "Length", "Diameter", "Height", "Whole Weight", "Shucked Weight", "Viscera Weight", "Shell Weight", "Rings"]]
+data = preprocess_data("../abalone.data")
+for row in data:
+    print(row)
