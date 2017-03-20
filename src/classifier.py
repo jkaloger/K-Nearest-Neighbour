@@ -35,14 +35,34 @@ def compare_instance(instance1, instance2, method):
 
 # returns the euclidean distance of two instances
 def dist_euclid(instance1, instance2):
+    sum = 0
+    for i in range(len(instance1)):
+        sum += (instance1[i] - instance2[i])**2
+    return sum**1/2
     return 0
+
+# returns cosine similarity of two instances
+def sim_cosine(instance1, instance2):
+    a = 0
+    b = 0
+    for x in instance1:
+        a += x**2
+    for y in instance2:
+        b += y**2
+    c = [x * y for x,y in list(zip(instance1, instance2))]
+    b = b**1/2
+    a = a**1/2
+
+    return sum(c)/a*b
 
 # returns a list of (class, score) 2-tuples, for each of the k best neighbors,
 # according to dist/sim metric defined by method string, for the given instance
 # from the test data set based on all instances in training dataset
 def get_neighbours(instance, training_data_set, k, method):
-	#
-        print("hi")
+    neighbours = []
+    for training_instance in training_data_set:
+        neighbours.append([training_instance[8], method(instance, training_instance)])
+    return sorted(neighbours, key=lambda x: x[1])[:k]
 
 # returns a predicted class label, according to the given neighbors from list (class, score) 2-tuples
 # + voting method defined by method string
@@ -61,4 +81,6 @@ def evaluate(data_set, metric):
 
 attributes = [["Sex", "Length", "Diameter", "Height", "Whole Weight", "Shucked Weight", "Viscera Weight", "Shell Weight", "Rings"]]
 data = preprocess_data("../abalone.data")
-print(data)
+
+print(get_neighbours(data[0], data, 10, sim_cosine))
+
